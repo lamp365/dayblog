@@ -1,2 +1,2 @@
 # dayblog
-利用apicloud端服务，打扫PHP开发原生APP，研究demo
+利用apicloud端服务，打照PHP开发原生APP，研究demo
