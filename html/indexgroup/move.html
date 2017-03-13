@@ -497,12 +497,7 @@
         if(style.length < 1){
             return '';
         }
-        if(style == 'list'){
-            var st = 'show';
-        }else{
-            var st = 'list'
-        }
-        $api.setStorage('movieStyle',st);
+        $api.setStorage('movieStyle',style);
         $fixedRight.style.display = 'none';
         moviesBox.style.display = 'none';
         if (style == 'list') {
