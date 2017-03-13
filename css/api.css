@@ -6,6 +6,7 @@ html,body,header,section,footer,div,ul,ol,li,img,a,span,em,del,legend,center,str
 	border:0;
 	padding:0;
 	font-style:normal;
+	color:rgb(50,50,50);
 }
 html,body {
 	-webkit-touch-callout:none;
@@ -70,11 +71,10 @@ td,th {
 	width: 100%;
 }
 .loading_more:before {
-	display: inline-block; vertical-align: text-bottom;
-	content: ' '; height: 16px; width: 16px; margin-right: 6px;
-	background: url(../image/loading_more.gif) no-repeat center;
-	-webkit-background-size: contain;
+	background-image: url(../image/loading_more.gif) 30% center;
+	background-repeat: no-repeat;
 	background-size: contain;
+	text-align: center;
 } 
 .loading_more:after {
 	content: '加载更多';	
