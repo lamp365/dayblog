@@ -17,7 +17,7 @@
                 <img src="./res/drawable-hdpi/ic_launcher.png" class="chooseCityImg">
                 <span class="chooseCitySpan">北京</span>
             </a>
-            <a id="chooseStyleBtn" class="show" tapmode>
+            <a id="chooseStyleBtn"  class="show" tapmode>
 
             </a>
         </div>
@@ -46,52 +46,8 @@
 var banner_bar = $api.byId('banner_bar');
 var aFrameName = $api.domAll('#headerBanner .frame_name');
 var chooseStyleBtn = $api.byId('chooseStyleBtn');
-    
-//改变导航显示状态
-function changeBanner(num) {
-    $(".frame_name").removeClass('active');
-    $api.addCls(aFrameName[num],'active');
-}
- // 改变展示样式按钮
-function changeBtn(style){
-    switch(style){
-        case 'show': chooseStyleBtn.className = 'list';
-                     $(document).delegate('#chooseStyleBtn','click',function(){
-                        api.execScript({
-                            frameName: 'movie',
-                            script: 'changeStyle("list")'
-                        });
-                    });  
-                    break;  
-        case 'list': chooseStyleBtn.className = 'show';
-                     $(document).delegate('#chooseStyleBtn','click',function(){
-                        api.execScript({
-                            frameName: 'movie',
-                            script: 'changeStyle("show")'
-                        });
-                    });
-                    break;  
-        case 'cinema_map': chooseStyleBtn.className = 'cinema_list';
-                     $(document).delegate('#chooseStyleBtn','click',function(){
-                        api.execScript({
-                            frameName: 'cinema',
-                            script: 'changeStyle("cinema_list")'
-                        });
-                    });  
-                    break;  
-        case 'cinema_list': chooseStyleBtn.className = 'cinema_map';
-                    $(document).delegate('#chooseStyleBtn','click',function(){
-                        api.execScript({
-                            frameName: 'cinema',
-                            script: 'changeStyle("cinema_map")'
-                        });
-                    });  
-                    break;  
-        default: chooseStyleBtn.className = '';
-                $api.removeAttr(chooseStyleBtn,'onclick');
-    }
 
-};
+
 
   apiready = function(){
         window.map = api.require('baiduMap');
@@ -236,24 +192,18 @@ function changeBtn(style){
             var name = ret.name;
             // 两个frame，每个frame有两种图标，这里写得有点绕
             if (index == 0) {
-                var st = $api.getStorage('movieStyle') == '' ? 'show' : $api.getStorage('movieStyle');
-                 changeBtn(st);
-                 api.execScript({
-                        frameName: 'movie',
-                        script: 'changeStyle("'+st+'")'
-                 });
+
+                oneFrameStatu();
+
             } else if(index == 1){
-                var st = $api.getStorage('cinemaStyle') == '' ? 'cinema_list' : $api.getStorage('cinemaStyle');
-                 changeBtn(st);
-                 api.execScript({
-                    frameName: 'cinema',
-                    script: 'changeStyle("'+st+'")'
-                 });
+                
+                twoFrameStatu();
                 
             } else {
-                changeBtn();
+               $(".frame_name").removeClass('active');
+                $api.addCls(aFrameName[index],'active');
             }
-            changeBanner(index);              
+                   
         });
         
     };

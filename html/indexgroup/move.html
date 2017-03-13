@@ -484,20 +484,25 @@
     </div>
 </body>
 <script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js"></script>
 <script type="text/javascript" src="../../script/common.js"></script>
 <!-- <script type="text/javascript" src="../../script/zepto.js"></script> -->
-<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/1.6.4/jquery.min.js"></script>
+
 <script> 
  // var fixedLeft = $api.byId('fixedLeft');
     var $fixedRight = $api.byId('fixedRight');
     var movieList = $api.byId('movieList');
     var moviesBox = $api.byId('moviesBox');
     // var bgBlur = $api.byId('bg_blur');
-    var changeStyle = function(style){
-        if(style.length < 1){
-            return '';
+    var changeStyle = function(style,num){
+        alert(style);
+        if(num == 1){
+            $api.setStorage('movieStyle',style);
+        }else{
+            $api.setStorage('cinemaStyle',style);
         }
-        $api.setStorage('movieStyle',style);
+
+
         $fixedRight.style.display = 'none';
         moviesBox.style.display = 'none';
         if (style == 'list') {
