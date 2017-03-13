@@ -1,7 +1,7 @@
 
 // 判断打开欢迎页还是直接进首页调出indexframegroup
-var indexOrWelcome = function(fn){
-
+var indexOrWelcome = function(){
+    
     if($api.getStorage('firstStart')){
         api.setFrameGroupAttr({
             name: 'welcome',
@@ -16,7 +16,7 @@ var indexOrWelcome = function(fn){
             script: 'openIndexFrameGroup();'
         });
     } else {
-        fn && fn();
+       welcome();
     }
 };
 
@@ -73,23 +73,23 @@ var changeActMenu = function(num){
 };
 
 // 主页展示样式按钮切换
-var changeIndexStyleBtn = function(style){
+/*var changeIndexStyleBtn = function(style){
     style = style || '';
     api.execScript({
         name: 'root',
         script: 'changeBtn("'+style+'")'
     });
-};
+};*/
 
 // 主页调用切换样式
-var showStyle = function(name,style){
+/*var showStyle = function(name,style){
     changeIndexStyleBtn(style);
     api.execScript({
         frameName: name,
         script: 'changeStyle("'+style+'")'
     });
 };
-
+*/
 
 //某个影片的详情页
 var goDetail = function(json){
