@@ -72,46 +72,22 @@ var changeActMenu = function(num){
     });
 };
 
-// 主页展示样式按钮切换
-/*var changeIndexStyleBtn = function(style){
-    style = style || '';
-    api.execScript({
-        name: 'root',
-        script: 'changeBtn("'+style+'")'
-    });
-};*/
 
-// 主页调用切换样式
-/*var showStyle = function(name,style){
-    changeIndexStyleBtn(style);
-    api.execScript({
-        frameName: name,
-        script: 'changeStyle("'+style+'")'
-    });
-};
-*/
 
 var oneFrameStatu = function (){
     var aFrameName     = $api.domAll('#headerBanner .frame_name');
     var chooseStyleBtn = $api.byId('chooseStyleBtn');
 
     var st = $api.getStorage('movieStyle') == '' ? 'show' : $api.getStorage('movieStyle');
-    
     //修改当前样式class
-     if(st == 'show')
-        chooseStyleBtn.className = 'list';
-     else if(st == 'list')
-        chooseStyleBtn.className = 'show';
-     else{
-        st = 'show';
-        chooseStyleBtn.className = 'list';
-     }
+    $(chooseStyleBtn).prop('class','');
+    $(chooseStyleBtn).addClass(st);
 
      
-     // api.execScript({
-     //        frameName: 'movie',
-     //        script: 'changeStyle("'+st+'","1")'
-     // });
+     api.execScript({
+            frameName: 'movie',
+            script: 'changeStyle("'+st+'")'
+     });
 
     $(".frame_name").removeClass('active');
     $api.addCls(aFrameName[0],'active');
@@ -122,22 +98,16 @@ var twoFrameStatu = function (){
     var chooseStyleBtn = $api.byId('chooseStyleBtn');
 
     var st = $api.getStorage('cinemaStyle') == '' ? 'cinema_list' : $api.getStorage('cinemaStyle');
-    
+
     //修改当前样式class
-     if(st == 'cinema_list')
-        chooseStyleBtn.className = 'cinema';
-     else if(st == 'cinema')
-        chooseStyleBtn.className = 'cinema_list';
-     else{
-        st = 'cinema_list';
-        chooseStyleBtn.className = 'cinema';
-     }
+    $(chooseStyleBtn).prop('class','');
+    $(chooseStyleBtn).addClass(st);
      
 
-     // api.execScript({
-     //        frameName: 'cinema',
-     //        script: 'changeStyle("'+st+'","2")'
-     // });
+     api.execScript({
+            frameName: 'cinema',
+            script: 'changeStyle("'+st+'")'
+     });
 
     $(".frame_name").removeClass('active');
     $api.addCls(aFrameName[1],'active');
@@ -145,44 +115,44 @@ var twoFrameStatu = function (){
 
 
 $(document).delegate("#header #chooseStyleBtn",'click',function(){
-    if($(this).hasClass('list')){
-        api.execScript({
-            frameName: 'movie',
-            script: 'changeStyle("list","1")'
-     });
-     $(this).removeClass("list");
-     $(this).addClass('show');
-    }
-
-
-    if($(this).hasClass('show')){
-        alert('aaa');
+    var c_ss = $(this).prop('class');
+    if(c_ss == 'list'){
         api.execScript({
             frameName: 'movie',
             script: 'changeStyle("show","1")'
-     });
-     $(this).removeClass("show");
-     $(this).addClass('list');
+         });
+         $(this).removeClass("list");
+         $(this).addClass('show');
     }
 
 
-     if($(this).hasClass('cinema_list')){
+     if(c_ss == 'show'){
+        api.execScript({
+            frameName: 'movie',
+            script: 'changeStyle("list","1")'
+         });
+         $(this).removeClass("show");
+         $(this).addClass('list');
+     }
+
+
+     if(c_ss == 'cinema_list'){
+        api.execScript({
+            frameName: 'cinema',
+            script: 'changeStyle("cinema_map","2")'
+         });
+         $(this).removeClass("cinema_list");
+         $(this).addClass('cinema_map');
+    }
+
+
+      if(c_ss == 'cinema_map'){
         api.execScript({
             frameName: 'cinema',
             script: 'changeStyle("cinema_list","2")'
-     });
-     $(this).removeClass("cinema_list");
-     $(this).addClass('cinema');
-    }
-
-
-     if($(this).hasClass('cinema')){
-        api.execScript({
-            frameName: 'cinema',
-            script: 'changeStyle("cinema","2")'
-     });
-     $(this).removeClass("cinema");
-     $(this).addClass('cinema_list');
+         });
+         $(this).removeClass("cinema_map");
+         $(this).addClass('cinema_list');
     }
 })
 
@@ -262,4 +232,57 @@ var searchIndexMap = function(options){
         name: 'root',
         script: 'searchInMap();'
     });
+};
+
+
+// 按条件搜索
+var searchInMap = function(options){
+    map.searchNearBy({
+        key: '电影院',
+        lon: 116.384767,
+        lat: 39.989539,
+        radius: 2000,
+        pageIndex: 0
+    },function(ret,err){
+        if (ret.status) {
+             api.alert({title:'NearBy搜索结果总条数',msg:ret.totalNum});
+        }else {
+             api.alert({title:'搜索错误代码',msg:err.msg});
+        }
+    });
+};
+var openBaiduMap = function(options){
+    // 高度不知为何有一点误差
+    if ($api.getStorage('map') && $api.getStorage('map') == 2) {
+
+    } else{
+        map.open({
+            x: 0,
+            y: 0,
+            width: wW,
+            height: wH-headerPos.h-headerBannerPos.h-footerPos.h-2,
+            lon: 116.384767,
+            lat: 39.989539,
+            fixedOn: 'cinema'
+        },function(ret,err){
+            $api.setStorage('map','2');
+            if(ret.status){
+                searchInMap();
+                map.setZoomLevel({
+                    level: 18
+                });
+
+            } else {
+            }
+            if (err) {
+            }
+        });
+    }
+
+};
+var closeBaiduMap = function(options){
+    if (map) {
+        map.close();
+        $api.setStorage('map','1');
+    }
 };

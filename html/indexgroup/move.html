@@ -494,18 +494,13 @@
     var movieList = $api.byId('movieList');
     var moviesBox = $api.byId('moviesBox');
     // var bgBlur = $api.byId('bg_blur');
-    var changeStyle = function(style,num){
-        alert(style);
-        if(num == 1){
-            $api.setStorage('movieStyle',style);
-        }else{
-            $api.setStorage('cinemaStyle',style);
-        }
-
+    var changeStyle = function(style){
+       
+        $api.setStorage('movieStyle',style);
 
         $fixedRight.style.display = 'none';
         moviesBox.style.display = 'none';
-        if (style == 'list') {
+        if (style == 'show') {
             moviesBox.style.display = 'block';
         } else{
             $fixedRight.style.display = 'block';
